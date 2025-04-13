@@ -160,6 +160,7 @@ useClickOutside(searchContainerRef, () => {
   width: 100%;
   max-width: 600px;
   margin: 0 auto;
+  z-index: 10;
 }
 
 @media (min-width: 768px) {
@@ -172,6 +173,7 @@ useClickOutside(searchContainerRef, () => {
 .input-wrapper {
   position: relative;
   width: 100%;
+  z-index: 10;
 }
 
 .search-input {
@@ -184,6 +186,8 @@ useClickOutside(searchContainerRef, () => {
   outline: none;
   transition: all 0.2s ease;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  position: relative;
+  z-index: 10;
 }
 
 .clear-button {
@@ -205,6 +209,7 @@ useClickOutside(searchContainerRef, () => {
   justify-content: center;
   border-radius: 50%;
   transition: all 0.2s ease;
+  z-index: 10;
 }
 
 .clear-button:hover {
@@ -227,7 +232,7 @@ useClickOutside(searchContainerRef, () => {
   border: 2px solid var(--color-border);
   border-radius: 12px;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
-  z-index: 10;
+  z-index: 15;
   animation: fadeIn 0.2s ease;
 }
 
@@ -296,7 +301,7 @@ useClickOutside(searchContainerRef, () => {
   transition:
     opacity 0.3s ease,
     visibility 0.3s ease;
-  z-index: 5;
+  z-index: 1;
 }
 
 .overlay.active {
