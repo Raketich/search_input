@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
 import { useClickOutside } from '../composables/useClickOutside'
-import { useNamesStore } from '../stores/names'
+import { useNames } from '../composables/useNames'
 
-const namesStore = useNamesStore()
+const { getFilteredNames } = useNames()
 
 const searchInput = ref('')
 const showDropdown = ref(false)
@@ -13,6 +13,7 @@ const selectedIndex = ref(-1)
 const searchContainerRef = ref<HTMLElement | null>(null)
 const hasInputText = computed(() => searchInput.value.trim() !== '')
 const isSelecting = ref(false)
+const isFocused = ref(false)
 
 const hasResults = computed(() => filteredNames.value.length > 0)
 
@@ -27,7 +28,7 @@ const filterNames = () => {
       showDropdown.value = false
       return
     }
-    filteredNames.value = namesStore.getFilteredNames(searchInput.value)
+    filteredNames.value = getFilteredNames.value(searchInput.value)
     showDropdown.value = true
   }, 300)
 }
@@ -73,9 +74,14 @@ const handleClearInput = () => {
 }
 
 const handleFocus = () => {
+  isFocused.value = true
   if (searchInput.value.trim() !== '') {
     filterNames()
   }
+}
+
+const handleBlur = () => {
+  isFocused.value = false
 }
 
 const handleKeydown = (event: KeyboardEvent) => {
@@ -110,6 +116,7 @@ useClickOutside(searchContainerRef, () => {
 
 <template>
   <div class="search-container" ref="searchContainerRef">
+    <div class="overlay" :class="{ active: isFocused }"></div>
     <div class="input-wrapper">
       <input
         type="text"
@@ -117,6 +124,7 @@ useClickOutside(searchContainerRef, () => {
         placeholder="Search names..."
         class="search-input"
         @focus="handleFocus"
+        @blur="handleBlur"
         @keydown="handleKeydown"
       />
       <button
@@ -274,5 +282,25 @@ useClickOutside(searchContainerRef, () => {
     margin-top: 1rem;
     width: 100%;
   }
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.3s ease,
+    visibility 0.3s ease;
+  z-index: 5;
+}
+
+.overlay.active {
+  opacity: 1;
+  visibility: visible;
 }
 </style>
