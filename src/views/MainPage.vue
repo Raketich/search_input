@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import SearchComponent from '../components/SearchComponent.vue'
+import ThemeSwitcher from '../components/ThemeSwitcher.vue'
 </script>
 
 <template>
   <div class="main-container">
     <div class="header">
+      <ThemeSwitcher />
       <SearchComponent />
     </div>
   </div>
