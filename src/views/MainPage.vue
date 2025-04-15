@@ -1,13 +1,19 @@
 <script setup lang="ts">
 import SearchComponent from '../components/SearchComponent.vue'
 import ThemeSwitcher from '../components/ThemeSwitcher.vue'
+import { useNamesStore } from '../stores/names'
+
+const namesStore = useNamesStore()
 </script>
 
 <template>
   <div class="main-container">
     <div class="header">
       <ThemeSwitcher />
-      <SearchComponent />
+      <SearchComponent
+        :namesList="namesStore.namesList"
+        :getFilteredNames="namesStore.getFilteredNames"
+      />
     </div>
   </div>
 </template>

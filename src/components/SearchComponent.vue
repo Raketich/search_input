@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
 import { useClickOutside } from '../composables/useClickOutside'
-import { useNames } from '../composables/useNames'
 
-const { getFilteredNames } = useNames()
+const props = defineProps<{
+  namesList: string[]
+  getFilteredNames: (searchTerm: string) => string[]
+}>()
 
 const searchInput = ref('')
 const showDropdown = ref(false)
@@ -28,7 +30,7 @@ const filterNames = () => {
       showDropdown.value = false
       return
     }
-    filteredNames.value = getFilteredNames.value(searchInput.value)
+    filteredNames.value = props.getFilteredNames(searchInput.value)
     showDropdown.value = true
   }, 300)
 }
